@@ -21,7 +21,7 @@ None
 
 Users appreciate release notes as you update your extension.
 
-### 1.0.1
+### 1.0.2
 
 Initial release of **Rspec quick spec**
 
