@@ -6,7 +6,7 @@ This extension only creates an `_spec.rb` file on relative path to the spec dir.
 
 If you open a file in `./app/models/user.rb` and activate the extensions, the extension verify if already exists a file on `./spec/models/user_spec.rb`, if does not, it creates the file with a little sample and opens the file.
 
-![THE feature](images/feature.gif)
+![THE feature](./images/feature.gif)
 
 
 ## Extension Settings
