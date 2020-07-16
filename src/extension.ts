@@ -1,6 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import * as fs from 'fs';
 
 export function activate(context: vscode.ExtensionContext) {
 
@@ -19,7 +20,12 @@ export function activate(context: vscode.ExtensionContext) {
     const specPath = documentPath.replace(/(\.rb$)/i, '_spec.rb').replace(/^app/i, 'spec')
     const newFileUri = vscode.Uri.file(`${vscode.workspace.rootPath}/${specPath}`)
     const sampleUri = vscode.Uri.file(`${extensionPath}/file-samples/spec.rb`)
-    await vscode.workspace.fs.copy(sampleUri, newFileUri)
+
+    if (fs.existsSync(newFileUri.fsPath)) {
+      vscode.window.showInformationMessage('The file already exists, I`ll open it for you');
+    } else {
+      await vscode.workspace.fs.copy(sampleUri, newFileUri)
+    }
 
     const specFile = await vscode.workspace.openTextDocument(newFileUri)
     vscode.window.showTextDocument(specFile)
