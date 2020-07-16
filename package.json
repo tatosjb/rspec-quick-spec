@@ -3,9 +3,9 @@
 	"displayName": "RSpec quick spec",
 	"description": "Creates a spec for the current ruby file when activated",
   "publisher": "tatosjb",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "repository": {
-    "url": "https://github.com:tatosjb/rspec-quick-spec"
+    "url": "https://github.com/tatosjb/rspec-quick-spec"
   },
 	"engines": {
 		"vscode": "^1.47.0"
