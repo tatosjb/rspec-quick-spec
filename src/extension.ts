@@ -2,26 +2,31 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "rspec-quick-spec" is now active!');
+  console.log('Congratulations, your extension "rspec-quick-spec" is now active!');
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('rspec-quick-spec.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
+  let disposable = vscode.commands.registerCommand('rspec-quick-spec.createSpec', async () => {
+    const document = vscode.window.activeTextEditor?.document;
+    const documentPath = vscode.workspace.asRelativePath(document?.uri.path || '')
+    const extensionPath = vscode.extensions.getExtension('tatosjb.rspec-quick-spec')?.extensionPath;
 
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from RSpec quick spec!');
-	});
+    if (documentPath.match(/_spec\.rb$/i)) {
+      vscode.window.showInformationMessage('Already a ruby spec');
+      return
+    }
 
-	context.subscriptions.push(disposable);
+    const specPath = documentPath.replace(/(\.rb$)/i, '_spec.rb').replace(/^app/i, 'spec')
+    const newFileUri = vscode.Uri.file(`${vscode.workspace.rootPath}/${specPath}`)
+    const sampleUri = vscode.Uri.file(`${extensionPath}/file-samples/spec.rb`)
+    await vscode.workspace.fs.copy(sampleUri, newFileUri)
+
+    const specFile = await vscode.workspace.openTextDocument(newFileUri)
+    vscode.window.showTextDocument(specFile)
+  });
+
+  context.subscriptions.push(disposable);
 }
 
 // this method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() { }

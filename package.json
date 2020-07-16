@@ -2,6 +2,7 @@
 	"name": "rspec-quick-spec",
 	"displayName": "RSpec quick spec",
 	"description": "Creates a spec for the current ruby file when activated",
+  "publisher": "tatosjb",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.47.0"
@@ -10,14 +11,14 @@
 		"Other"
 	],
 	"activationEvents": [
-        "onCommand:rspec-quick-spec.helloWorld"
+        "onCommand:rspec-quick-spec.createSpec"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "rspec-quick-spec.helloWorld",
-				"title": "Hello World"
+				"command": "rspec-quick-spec.createSpec",
+				"title": "Create rspec spec"
 			}
 		]
 	},
