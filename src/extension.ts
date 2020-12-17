@@ -18,7 +18,8 @@ export function activate(context: vscode.ExtensionContext) {
     }
 
     const specPath = documentPath.replace(/(\.rb$)/i, '_spec.rb').replace(/^app/i, 'spec')
-    const newFileUri = vscode.Uri.file(`${vscode.workspace.rootPath}/${specPath}`)
+    const workspacePath = vscode.workspace.workspaceFolders?.[0].uri.path
+    const newFileUri = vscode.Uri.file(`${workspacePath}/${specPath}`)
     const sampleUri = vscode.Uri.file(`${extensionPath}/file-samples/spec.rb`)
 
     if (fs.existsSync(newFileUri.fsPath)) {
