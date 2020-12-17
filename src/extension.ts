@@ -3,8 +3,19 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 
-export function activate(context: vscode.ExtensionContext) {
+const workspacePath: string = vscode.workspace.workspaceFolders?.[0].uri.path || ''
+const isAGem = !!fs.readdirSync(workspacePath).find(path => path.endsWith('.gemspec'))
 
+function buildAppSpecPath(documentPath: string) {
+  const path = documentPath.replace(/(\.rb$)/i, '_spec.rb').replace(/^app/i, 'spec')
+  return path.startsWith('spec') ? path : `spec/${path}`
+}
+
+function buildGemSpecPath(documentPath: string) {
+  return documentPath.replace(/(\.rb$)/i, '_spec.rb').replace(/^lib/i, 'spec')
+}
+
+export function activate(context: vscode.ExtensionContext) {
   console.log('Congratulations, your extension "rspec-quick-spec" is now active!');
 
   let disposable = vscode.commands.registerCommand('rspec-quick-spec.createSpec', async () => {
@@ -17,8 +28,7 @@ export function activate(context: vscode.ExtensionContext) {
       return
     }
 
-    const specPath = documentPath.replace(/(\.rb$)/i, '_spec.rb').replace(/^app/i, 'spec')
-    const workspacePath = vscode.workspace.workspaceFolders?.[0].uri.path
+    const specPath = isAGem ? buildGemSpecPath(documentPath) : buildAppSpecPath(documentPath)
     const newFileUri = vscode.Uri.file(`${workspacePath}/${specPath}`)
     const sampleUri = vscode.Uri.file(`${extensionPath}/file-samples/spec.rb`)
 
